@@ -5,9 +5,9 @@ import com.zb.mall.commons.exception.LogicException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.validation.ConstraintViolationException;
@@ -48,6 +48,11 @@ public class CustomerExceptionHandler {
             LogicException ex = (LogicException) e;
             errorMessage = ex.getErrorCode() + ":" + ex.getErrorMessage();
             log.error("自定义异常: {}", errorMessage);
+        }
+        else if (e instanceof HttpRequestMethodNotSupportedException) {
+            HttpRequestMethodNotSupportedException ex = (HttpRequestMethodNotSupportedException) e;
+            errorMessage = ex.getMessage();
+            log.error("不支持的HTTP METHOD：{}", errorMessage);
         }
         else {
             log.error("出错啦", e);

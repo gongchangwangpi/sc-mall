@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zb.mall.mapper.user.ConsigneeMapper">
+
+    <resultMap id="BaseResultMap" type="com.zb.mall.domain.user.Consignee">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="consignee_name" jdbcType="VARCHAR" property="consigneeName"/>
+        <result column="consignee_mobile" jdbcType="VARCHAR" property="consigneeMobile"/>
+        <result column="consignee_addr" jdbcType="VARCHAR" property="consigneeAddr"/>
+        <result column="type" jdbcType="VARCHAR" property="type"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    id, user_id, consignee_name, consignee_mobile, consignee_addr, type, create_time, 
+    modify_time
+  </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from t_consignee
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_consignee
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+
+    <insert id="insert" parameterType="com.zb.mall.domain.user.Consignee" useGeneratedKeys="true" keyProperty="id">
+    insert into t_consignee (user_id, consignee_name,
+      consignee_mobile, consignee_addr, type, 
+      create_time, modify_time)
+    values (#{userId,jdbcType=VARCHAR}, #{consigneeName,jdbcType=VARCHAR},
+      #{consigneeMobile,jdbcType=VARCHAR}, #{consigneeAddr,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+
+    <update id="update" parameterType="com.zb.mall.domain.user.Consignee">
+        update t_consignee
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="consigneeName != null">
+                consignee_name = #{consigneeName,jdbcType=VARCHAR},
+            </if>
+            <if test="consigneeMobile != null">
+                consignee_mobile = #{consigneeMobile,jdbcType=VARCHAR},
+            </if>
+            <if test="consigneeAddr != null">
+                consignee_addr = #{consigneeAddr,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>
