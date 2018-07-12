@@ -2,10 +2,8 @@ package com.zb.mall.service.user.impl;
 
 import com.zb.mall.commons.utils.encrypt.MD5;
 import com.zb.mall.domain.user.User;
-import com.zb.mall.dto.user.UserRegisterRequestDto;
 import com.zb.mall.mapper.user.UserMapper;
 import com.zb.mall.service.user.UserOperService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,10 +22,7 @@ public class UserOperServiceImpl implements UserOperService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
-    public User register(UserRegisterRequestDto userRegisterRequest) {
-
-        User user = new User();
-        BeanUtils.copyProperties(userRegisterRequest, user);
+    public User register(User user) {
 
         user.setPassword(MD5.md5(user.getPassword(), null));
         user.setRegisterTime(new Date());

@@ -4,6 +4,7 @@ import com.zb.mall.commons.dto.RestResultDto;
 import com.zb.mall.domain.user.User;
 import com.zb.mall.dto.user.UserRegisterRequestDto;
 import com.zb.mall.service.user.UserOperService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,9 +23,12 @@ public class UserOperController {
     @Resource
     private UserOperService userOperService;
 
-    @GetMapping(value = "/register")
+    @PostMapping(value = "/register")
     public RestResultDto register(@Validated UserRegisterRequestDto userRegisterRequest) {
-        User register = userOperService.register(userRegisterRequest);
+        User user = new User();
+        BeanUtils.copyProperties(userRegisterRequest, user);
+
+        User register = userOperService.register(user);
 
         return RestResultDto.success(register);
     }
