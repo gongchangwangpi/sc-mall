@@ -1,0 +1,25 @@
+server:
+  port: 8760
+
+spring:
+  application:
+    name: sc-mall-registry-center
+#  zipkin:
+#    base-url: http://127.0.0.1:8100/
+#  sleuth:
+#    sampler:
+#      percentage: 0.1
+    
+eureka:
+  instance:
+    hostname: localhost
+  client:
+#  单点注册中心，须关掉。因注册中心也算是一个服务，也会去找注册中心注册服务
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+#   关闭自我保护，注册中心在单点时，会开启自我保护功能，不能及时的清除已经下线的服务
+#   由此也可以看出，eureka是保持CAP中的AP，强调可用性，而zookeeper则强调一致性
+    enable-self-preservation: false
